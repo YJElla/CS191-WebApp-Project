@@ -4,9 +4,11 @@ import pytesseract
 from PIL import Image
 import os
 
+tesseract_cmd = 'tesseract' 
+tesseract_cmd = 'C:\Program Files\Tesseract-OCR\\tesseract.exe'
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = 'C:/Users/yanni/OneDrive/Pictures/OCRTesting'
+app.config['UPLOAD_FOLDER'] = 'uploads/'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # Limit file size to 16 MB
 
 # Ensure upload folder exists
@@ -39,8 +41,8 @@ def upload_file():
         return render_template('result.html', extracted_text=text)
 
 def extract_text(image_path):
-    with Image.open(image_path) as img:
-        text = pytesseract.image_to_string(img)
+    img = Image.open(image_path)
+    text = pytesseract.image_to_string(img)
     return text
 
 if __name__ == '__main__':
