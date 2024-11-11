@@ -7,6 +7,7 @@ import os
 tesseract_cmd = 'tesseract' 
 tesseract_cmd = 'C:\Program Files\Tesseract-OCR\\tesseract.exe'
 
+
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads/'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # Limit file size to 16 MB
