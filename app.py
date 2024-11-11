@@ -1,15 +1,12 @@
+import os
 from flask import Flask, request, render_template, redirect, url_for
 from werkzeug.utils import secure_filename
 import pytesseract
 from PIL import Image
-import os
-
-tesseract_cmd = 'tesseract' 
-tesseract_cmd = 'C:\Program Files\Tesseract-OCR\\tesseract.exe'
-
+from ocr_pdf import extract_text_from_pdf  # Import the PDF processing function
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = 'uploads/' # specify a specific folder
+app.config['UPLOAD_FOLDER'] = 'uploads/'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # Limit file size to 16 MB
 
 # Ensure upload folder exists
@@ -27,23 +24,26 @@ def upload_file():
     file = request.files['file']
     if file.filename == '':
         return redirect(request.url)
-    
+
     if file:
         filename = secure_filename(file.filename)
         file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         file.save(file_path)
-        
-        # Run OCR on the saved image
-        text = extract_text(file_path)
-        
+
+        # Check file type
+        if file.filename.lower().endswith('.pdf'):
+            text = extract_text_from_pdf(file_path)
+        else:
+            text = extract_text_from_image(file_path)
+
         # Clean up uploaded file
         os.remove(file_path)
-        
+
         return render_template('result.html', extracted_text=text)
 
-def extract_text(image_path):
-    img = Image.open(image_path)
-    text = pytesseract.image_to_string(img)
+def extract_text_from_image(image_path):
+    with Image.open(image_path) as img:
+        text = pytesseract.image_to_string(img)
     return text
 
 if __name__ == '__main__':
