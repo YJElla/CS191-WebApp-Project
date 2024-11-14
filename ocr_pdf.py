@@ -59,7 +59,7 @@ def extract_text_from_pdf(pdf_path):
                 description = match.group(2).strip()
                 grade = match.group(3).strip()
                 courses.append({
-                    "Course No.": course_no,
+                    "Course Code": course_no,
                     "Description": description,
                     "Grade": grade
                 })
