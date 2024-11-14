@@ -146,16 +146,17 @@
     <!-- File Upload Container -->
     <div class="upload-container">
         <h2>Please drop your Transcript of Records (TOR) here:</h2>
-        <div class="upload-box" id="uploadBox">
-            <img src="cloud.png" alt="Cloud Upload Icon">
-            <p>DRAG & DROP TO UPLOAD FILE<br>OR</p>
-            <label class="browse-button">
-                <input type="file" id="fileInput" style="display: none;">
-                Browse File
-            </label>
-        </div>
-        <button type="submit" class="submit-button">&#10140;</button>
-
+        <form action="{{ url_for('upload_file') }}" method="post" enctype="multipart/form-data">
+            <div class="upload-box" id="uploadBox">
+                <img src="cloud.png" alt="Cloud Upload Icon">
+                <p>DRAG & DROP TO UPLOAD FILE<br>OR</p>
+                <label class="browse-button">
+                    <input type="file" id="fileInput" style="display: none;">
+                    Browse File
+                </label>
+            </div>
+            <button class="submit-button">→</button>
+        </form>
     </div>
 
     <script>

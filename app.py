@@ -1,5 +1,5 @@
 import os
-from flask import Flask, request, render_template, redirect, url_for, session, flash
+from flask import Flask, request, render_template, redirect, url_for, session, flash, jsonify
 from werkzeug.utils import secure_filename
 import pytesseract
 from PIL import Image
@@ -30,18 +30,18 @@ def login_post():
     # Replace with actual usernames
     if username == "username" and password == "password":  # Dummy credentials
         session['user'] = username  # Store user in session
-        return redirect(url_for('index'))  # Redirect to upload page
+        return redirect(url_for('TOR_page'))  # Redirect to upload page
     else:
         flash('Invalid credentials. Please try again.')
         return redirect(url_for('login'))
 
 
-@app.route('/index')
+@app.route('/TOR_page')
 def index():
     # Check if the user is logged in
     if 'user' not in session:
         return redirect(url_for('login'))
-    return render_template('index.html')
+    return render_template('TOR_page.html')
     
 
 @app.route('/upload', methods=['POST'])
