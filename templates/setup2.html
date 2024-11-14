@@ -3,25 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>UP Diliman Department of Computer Science Account Setup</title>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+<title>UP Diliman Department of Computer Science Form</title>
 <style>
+    /* General Reset */
     * {
         box-sizing: border-box;
         margin: 0;
         padding: 0;
     }
-    
+
+    /* Body Styling */
     body {
-            font-family: 'Nunito', sans-serif;
-            background-color: #F2F2F2;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            padding-bottom: 40px; /* Move everything slightly upwards */
-        }
+        font-family: 'Nunito', sans-serif;
+        background-color: #F2F2F2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        padding-bottom: 51px; /* Adjusted padding-bottom */
+    }
+
     .header {
         text-align: center;
         margin-bottom: 20px;
@@ -30,31 +32,26 @@
         width: 80px;
         height: 80px;
         margin: 0 15px;
-        padding-bottom: 1px;
         vertical-align: middle;
     }
     .header h1 {
         font-size: 20px;
         color: #333;
         font-weight: bold;
-        margin-top: 10px;
         line-height: 1.4;
+        margin-top: 10px;
     }
     .container {
         background-color: white;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 20px;
+        box-shadow: 0px 12px 24px rgba(0, 0, 0, 0.3);
         padding: 40px;
-        width: 700px;
+        width: 800px;
         max-width: 100%;
-        display: flex;
-        gap: 20px;
-    }
-    .left-panel, .right-panel {
-        flex: 1;
     }
     h2 {
-        font-size: 1.5em;
+        font-size: 18px;
+        color: #333;
         margin-bottom: 20px;
     }
     label {
@@ -63,7 +60,7 @@
         margin-bottom: 5px;
         display: block;
     }
-    input[type="text"], input[type="email"], input[type="password"], select {
+    input[type="text"], input[type="date"], input[type="tel"], select {
         width: 100%;
         padding: 10px;
         margin-bottom: 20px;
@@ -71,8 +68,12 @@
         border-radius: 4px;
         font-size: 1em;
     }
+    input[type="date"] {
+        font-size: 1em; /* Adjust the font size for the entire date input field */
+        font-family: 'Nunito', sans-serif;
+    }
     .btn-submit {
-        background-color: #0b3d3a;
+        background-color: #000000;
         color: white;
         padding: 10px;
         border: none;
@@ -87,12 +88,14 @@
         margin: 0 auto;
     }
     .btn-submit:hover {
-        background-color: #09432e;
+        background-color: #000000;
     }
-    .password-requirements {
-        font-size: 0.9em;
-        color: #333;
-        line-height: 1.5;
+    .form-row {
+        display: flex;
+        gap: 20px;
+    }
+    .form-row .form-group {
+        flex: 1;
     }
 </style>
 </head>
@@ -105,43 +108,33 @@
 </div>
 
 <div class="container">
-    <div class="left-panel">
-        <h2>Let us set up your account!</h2>
-        <form action="{{ url_for('account_setup') }}" method="POST">
-            <label for="email">EMAIL</label>
-            <input type="email" id="email" name="email" placeholder="Enter your email" required>
-
-            <label for="role">ROLE</label>
-            <select id="role" name="role" required>
-                <option value="" disabled selected>Select Role</option>
-                <option value="student">Student</option>
-                <option value="professor">Professor</option>
-            </select>
-
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="password">PASSWORD</label>
-                    <input type="password" id="password" name="password" placeholder="Enter password" required>
-                </div>
-                <div class="form-group">
-                    <label for="confirm-password">CONFIRM PASSWORD</label>
-                    <input type="password" id="confirm-password" name="confirm_password" placeholder="Confirm password" required>
-                </div>
+    <h2>We would like to know more about you!</h2>
+    <form action="{{ url_for('submit_form') }}" method="POST">
+        <div class="form-row">
+            <div class="form-group">
+                <label for="birthdate">Birthdate</label>
+                <input type="date" id="birthdate" name="birthdate" required>
             </div>
-
-            <button type="submit" class="btn-submit">&#10140;</button>
-        </form>
-    </div>
-    <div class="right-panel">
-        <h3>PASSWORD REQUIREMENTS</h3>
-        <div class="password-requirements">
-            <ul>
-                <li>Must be at least 8 characters long</li>
-                <li>Must contain a number (e.g., 1234)</li>
-                <li>Must contain a lowercase and uppercase letter</li>
-            </ul>
+            <div class="form-group">
+                <label for="sex">Assigned Sex at Birth</label>
+                <select id="sex" name="sex" required>
+                    <option value="" disabled selected>Select</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+            </div>
         </div>
-    </div>
+        
+        <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <div class="form-row">
+                <input type="text" value="+63" readonly style="width: 60px;">
+                <input type="tel" id="phone" name="phone" placeholder="9XX XXX XXXX" required>
+            </div>
+        </div>
+        
+        <button type="submit" class="btn-submit">&#10140;</button>
+    </form>
 </div>
 
 </body>
