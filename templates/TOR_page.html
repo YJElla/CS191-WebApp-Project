@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Upload Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* General Reset */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* Body Styling */
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #F2F2F2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            padding-bottom: 51px; /* Adjusted padding-bottom */
+        }
+
+        /* Header styling */
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .header img {
+            width: 80px;
+            height: 80px;
+            margin: 0 15px;
+            vertical-align: middle;
+        }
+
+        .header h1 {
+            font-size: 20px;
+            color: #333;
+            font-weight: bold;
+            line-height: 1.4;
+            margin-top: 10px;
+        }
+
+        /* Container styling */
+        .upload-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 800px;
+            padding: 40px;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0px 12px 24px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .upload-container h2 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        /* File upload box styling */
+        .upload-box {
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            width: 100%;
+            height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: border-color 0.3s ease;
+        }
+
+        .upload-box:hover {
+            border-color: #666;
+        }
+
+        .upload-box img {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 10px;
+        }
+
+        .upload-box p {
+            font-size: 16px;
+            color: #666;
+        }
+
+        /* Browse file button styling */
+        .browse-button {
+            background-color: #000000;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .browse-button:hover {
+            background-color: #000000;
+        }
+
+        /* Submit button styling */
+        .submit-button {
+            background-color: #000000;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 20px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .submit-button:hover {
+            background-color: #000000;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- University Header -->
+    <div class="header">
+        <img src="upd_logo.png" alt="University of the Philippines Logo">
+        <img src="dcs_logo.png" alt="Department of Computer Science Logo">
+        <h1>University of the Philippines Diliman<br>Department of Computer Science</h1>
+    </div>
+
+    <!-- File Upload Container -->
+    <div class="upload-container">
+        <h2>Please drop your Transcript of Records (TOR) here:</h2>
+        <div class="upload-box" id="uploadBox">
+            <img src="cloud.png" alt="Cloud Upload Icon">
+            <p>DRAG & DROP TO UPLOAD FILE<br>OR</p>
+            <label class="browse-button">
+                <input type="file" id="fileInput" style="display: none;">
+                Browse File
+            </label>
+        </div>
+        <button class="submit-button">→</button>
+    </div>
+
+    <script>
+        const uploadBox = document.getElementById('uploadBox');
+        const fileInput = document.getElementById('fileInput');
+
+        // Trigger file input on upload box click
+        uploadBox.addEventListener('click', () => fileInput.click());
+
+        // Show file name after selection
+        fileInput.addEventListener('change', (event) => {
+            const fileName = event.target.files[0].name;
+            uploadBox.innerHTML = `<p>File Selected: ${fileName}</p>`;
+        });
+
+        // Drag and drop functionality
+        uploadBox.addEventListener('dragover', (event) => {
+            event.preventDefault();
+            uploadBox.style.borderColor = '#666';
+        });
+
+        uploadBox.addEventListener('dragleave', () => {
+            uploadBox.style.borderColor = '#ccc';
+        });
+
+        uploadBox.addEventListener('drop', (event) => {
+            event.preventDefault();
+            const file = event.dataTransfer.files[0];
+            fileInput.files = event.dataTransfer.files; // Update file input with dropped file
+            uploadBox.innerHTML = `<p>File Selected: ${file.name}</p>`;
+        });
+    </script>
+
+</body>
+</html>
