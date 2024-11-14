@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UP Diliman Department of Computer Science Account Setup</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f0f0f0;
+    }
+    .header {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .header img {
+        max-height: 50px;
+        margin-right: 10px;
+    }
+    .header h1 {
+        font-size: 1.2em;
+        color: #0b3d3a;
+        margin: 0;
+    }
+    .container {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 40px;
+        width: 700px;
+        max-width: 100%;
+        display: flex;
+        gap: 20px;
+    }
+    .left-panel, .right-panel {
+        flex: 1;
+    }
+    h2 {
+        font-size: 1.5em;
+        margin-bottom: 20px;
+    }
+    label {
+        font-size: 0.9em;
+        color: #333;
+        margin-bottom: 5px;
+        display: block;
+    }
+    input[type="text"], input[type="email"], input[type="password"], select {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 1em;
+    }
+    .btn-submit {
+        background-color: #0b3d3a;
+        color: white;
+        padding: 10px;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 1.2em;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 50px;
+        height: 50px;
+        margin: 0 auto;
+    }
+    .btn-submit:hover {
+        background-color: #09432e;
+    }
+    .password-requirements {
+        font-size: 0.9em;
+        color: #333;
+        line-height: 1.5;
+    }
+</style>
+</head>
+<body>
+
+<div class="header">
+    <img src="up-logo.png" alt="UP Logo">
+    <img src="cs-logo.png" alt="CS Logo">
+    <h1>University of the Philippines Diliman<br>Department of Computer Science</h1>
+</div>
+
+<div class="container">
+    <div class="left-panel">
+        <h2>Let us set up your account!</h2>
+        <form action="{{ url_for('account_setup') }}" method="POST">
+            <label for="email">EMAIL</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+
+            <label for="role">ROLE</label>
+            <select id="role" name="role" required>
+                <option value="" disabled selected>Select Role</option>
+                <option value="student">Student</option>
+                <option value="professor">Professor</option>
+            </select>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="password">PASSWORD</label>
+                    <input type="password" id="password" name="password" placeholder="Enter password" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirm-password">CONFIRM PASSWORD</label>
+                    <input type="password" id="confirm-password" name="confirm_password" placeholder="Confirm password" required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-submit">&#10140;</button>
+        </form>
+    </div>
+    <div class="right-panel">
+        <h3>PASSWORD REQUIREMENTS</h3>
+        <div class="password-requirements">
+            <ul>
+                <li>Must be at least 8 characters long</li>
+                <li>Must contain a number (e.g., 1234)</li>
+                <li>Must contain a lowercase and uppercase letter</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
