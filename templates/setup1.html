@@ -5,41 +5,54 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>UP Diliman Department of Computer Science Form</title>
 <style>
-    body {
-        font-family: Arial, sans-serif;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
-        margin: 0;
-        background-color: #f0f0f0;
-    }
+    /* General Reset */
+    * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* Body Styling */
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #F2F2F2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            padding-bottom: 51px; /* Adjusted padding-bottom */
+        }
+
     .header {
         text-align: center;
         margin-bottom: 20px;
     }
     .header img {
-        max-height: 50px;
-        margin-right: 10px;
-    }
-    .header h1 {
-        font-size: 1.2em;
-        color: #0b3d3a;
-        margin: 0;
-    }
+            width: 80px;
+            height: 80px;
+            margin: 0 15px;
+            vertical-align: middle;
+        }
+        .header h1 {
+            font-size: 20px;
+            color: #333;
+            font-weight: bold;
+            line-height: 1.4;
+            margin-top: 10px;
+        }
     .container {
         background-color: white;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 20px;
+        box-shadow: 0px 12px 24px rgba(0, 0, 0, 0.3);
         padding: 40px;
-        width: 700px;
+        width: 800px;
         max-width: 100%;
     }
     h2 {
-        margin: 0 0 20px;
-        font-size: 1.5em;
+        font-size: 18px;
         color: #333;
+        margin-bottom: 20px;
     }
     label {
         font-size: 0.9em;
@@ -56,7 +69,7 @@
         font-size: 1em;
     }
     .btn-submit {
-        background-color: #0b3d3a;
+        background-color: #000000;
         color: white;
         padding: 10px;
         border: none;
@@ -109,28 +122,6 @@
             <input type="text" id="address" name="address" placeholder="Street/Barangay/Province/Region" required>
         </div>
         
-        <div class="form-row">
-            <div class="form-group">
-                <label for="birthdate">Birthdate</label>
-                <input type="date" id="birthdate" name="birthdate" required>
-            </div>
-            <div class="form-group">
-                <label for="sex">Assigned Sex at Birth</label>
-                <select id="sex" name="sex" required>
-                    <option value="" disabled selected>Select</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                </select>
-            </div>
-        </div>
-        
-        <div class="form-group">
-            <label for="phone">Phone Number</label>
-            <div class="form-row">
-                <input type="text" value="+63" readonly style="width: 60px;">
-                <input type="tel" id="phone" name="phone" placeholder="9XX XXX XXXX" required>
-            </div>
-        </div>
         
         <button type="submit" class="btn-submit">&#10140;</button>
     </form>
