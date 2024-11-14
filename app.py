@@ -42,8 +42,22 @@ def TOR_page():
     if 'user' not in session:
         return redirect(url_for('login'))
     return render_template('TOR_page.html')
-    
 
+@app.route('/setup1')
+def setup1():
+    return render_template('setup1.html')
+
+@app.route('/setup2')
+def setup2():
+    return render_template('setup2.html')
+
+@app.route('/setup3')
+def setup3():
+    return render_template('setup3.html')
+
+@app.route('/submit_form', methods=['POST'])
+def submit_form():
+    ...
 @app.route('/upload', methods=['POST'])
 def upload_file():
     if 'file' not in request.files:
