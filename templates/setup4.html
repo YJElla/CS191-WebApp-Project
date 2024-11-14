@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UP Diliman Department of Computer Science Form</title>
+<style>
+    /* General Reset */
+    * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* Body Styling */
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #F2F2F2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            padding-bottom: 51px; /* Adjusted padding-bottom */
+        }
+
+    .header {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .header img {
+            width: 80px;
+            height: 80px;
+            margin: 0 15px;
+            vertical-align: middle;
+        }
+        .header h1 {
+            font-size: 20px;
+            color: #333;
+            font-weight: bold;
+            line-height: 1.4;
+            margin-top: 10px;
+        }
+    .container {
+        background-color: white;
+        border-radius: 20px;
+        box-shadow: 0px 12px 24px rgba(0, 0, 0, 0.3);
+        padding: 40px;
+        width: 800px;
+        max-width: 100%;
+    }
+    h2 {
+        font-size: 18px;
+        color: #333;
+        margin-bottom: 20px;
+    }
+    label {
+        font-size: 0.9em;
+        color: #333;
+        margin-bottom: 5px;
+        display: block;
+    }
+    input[type="text"], input[type="date"], input[type="tel"], select {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 1em;
+    }
+    .btn-submit {
+        background-color: #000000;
+        color: white;
+        padding: 10px;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 1.2em;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 50px;
+        height: 50px;
+        margin: 0 auto;
+    }
+    .btn-submit:hover {
+        background-color: #09432e;
+    }
+    .form-row {
+        display: flex;
+        gap: 20px;
+    }
+    .form-row .form-group {
+        flex: 1;
+    }
+</style>
+</head>
+<body>
+
+<div class="header">
+    <img src="upd_logo.png" alt="University of the Philippines Logo">
+    <img src="dcs_logo.png" alt="Department of Computer Science Logo">
+    <h1>University of the Philippines Diliman<br>Department of Computer Science</h1>
+</div>
+
+<div class="container">
+    <h2>We would like to know about your educational background!</h2>
+    <form action="{{ url_for('submit_form') }}" method="POST">
+        <div class="form-row">
+            <div class="form-group">
+                <label for="university_attended">University attended</label>
+                <input type="text" id="university_attended" name="university_attended" placeholder="University of the Philippines" required>
+            </div>
+            <div class="form-group">
+                <label for="degree_title">Degree Title</label>
+                <input type="text" id="degree_title" name="degree_title" placeholder="B.S. Computer Science" required>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="years_attended">Years Attended</label>
+                <input type="text" id="years_attended" name="years_attended" placeholder="2022-2026" required>
+            </div>
+            <div class="form-group">
+                <label for="student_id">Student ID</label>
+                <input type="text" id="student_id" name="student_id" placeholder="2022XXXXX" required>
+            </div>
+        </div>
+        
+        
+        
+        <button type="submit" class="btn-submit">&#10140;</button>
+    </form>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UP Diliman Department of Computer Science Form</title>
+<style>
+    /* General Reset */
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Body Styling */
+    body {
+        font-family: 'Nunito', sans-serif;
+        background-color: hwb(0 95% 5%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        padding-bottom: 51px; /* Adjusted padding-bottom */
+    }
+
+    .header {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .header img {
+        width: 80px;
+        height: 80px;
+        margin: 0 15px;
+        vertical-align: middle;
+    }
+    .header h1 {
+        font-size: 20px;
+        color: #333;
+        font-weight: bold;
+        line-height: 1.4;
+        margin-top: 10px;
+    }
+    .container {
+        background-color: white;
+        border-radius: 20px;
+        box-shadow: 0px 12px 24px rgba(0, 0, 0, 0.3);
+        padding: 40px;
+        width: 800px;
+        max-width: 100%;
+    }
+    h2 {
+        font-size: 18px;
+        color: #333;
+        margin-bottom: 20px;
+    }
+    label {
+        font-size: 0.9em;
+        color: #333;
+        margin-bottom: 5px;
+        display: block;
+    }
+    input[type="text"], input[type="date"], input[type="tel"], select, input[type="email"], input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 1em;
+    }
+    .btn-submit {
+        background-color: #000000;
+        color: white;
+        padding: 10px;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 1.2em;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 50px;
+        height: 50px;
+        margin: 20px auto 0; /* Adjusted margin to add spacing */
+    }
+    .btn-submit:hover {
+        background-color: #000000;
+    }
+    .form-row {
+        display: flex;
+        gap: 20px;
+    }
+    .form-row .form-group {
+        flex: 1;
+    }
+</style>
+</head>
+<body>
+
+    <div class="header">
+        <img src="upd_logo.png" alt="University of the Philippines Logo">
+        <img src="dcs_logo.png" alt="Department of Computer Science Logo">
+        <h1>University of the Philippines Diliman<br>Department of Computer Science</h1>
+    </div>
+    
+    <div class="container">
+        <div class="left-panel">
+            <h2>Let us set up your account!</h2>
+            <form action="{{ url_for('account_setup') }}" method="POST">
+                <label for="email">EMAIL</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+    
+                <label for="role">ROLE</label>
+                <select id="role" name="role" required>
+                    <option value="" disabled selected>Select Role</option>
+                    <option value="student">Student</option>
+                    <option value="professor">Professor</option>
+                </select>
+    
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="password">PASSWORD</label>
+                        <input type="password" id="password" name="password" placeholder="Enter password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm-password">CONFIRM PASSWORD</label>
+                        <input type="password" id="confirm-password" name="confirm_password" placeholder="Confirm password" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn-submit">&#10140;</button>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>
