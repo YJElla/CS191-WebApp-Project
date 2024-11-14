@@ -170,8 +170,8 @@
 
     <!-- University Header -->
     <div class="header">
-        <img src="upd_logo.png" alt="University of the Philippines Logo">
-        <img src="dcs_logo.png" alt="Department of Computer Science Logo">
+        <img src="{{ url_for('static', filename='upd_logo.png') }}" alt="University of the Philippines Logo">
+        <img src="{{ url_for('static', filename='dcs_logo.png') }}" alt="Department of Computer Science Logo">
         <h1>University of the Philippines Diliman<br>Department of Computer Science</h1>
     </div>
 
@@ -184,26 +184,25 @@
                 <!-- Username input field -->
                 <div class="form-group">
                     <label for="username">USERNAME</label>
-                    <input type="text" id="username" placeholder="Username or Email" required>
+                    <input type="text" id="username" name="username" placeholder="Username or Email" required>
                 </div>
                 
                 <!-- Password input field -->
                 <div class="form-group">
                     <label for="password">PASSWORD</label>
-                    <input type="password" id="password" placeholder="Password" required>
+                    <input type="password" id="password" name="password" placeholder="Password" required>
                 </div>
 
                 <!-- Sign-in button -->
                 <button type="submit" class="sign-in-button">Sign In</button>
-
-                <!-- Additional options like "Stay signed in" and "Forgot Password" link -->
-                <div class="additional-links">
-                    <label>
-                        <input type="checkbox"> Stay signed in
-                    </label>
-                    <a href="#">Forgot Password</a>
-                </div>
             </form>
+            <!-- Additional options like "Stay signed in" and "Forgot Password" link -->
+            <div class="additional-links">
+                <label>
+                    <input type="checkbox"> Stay signed in
+                </label>
+                <a href="#">Forgot Password</a>
+            </div>
         </div>
 
         <!-- Right section: Welcome message and Sign-up link -->

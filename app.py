@@ -28,7 +28,7 @@ def login_post():
     password = request.form['password']
 
     # Replace with actual usernames
-    if username == "username" and password == "password":  # Dummy credentials
+    if username == 'username' and password == 'password':  # Dummy credentials
         session['user'] = username  # Store user in session
         return redirect(url_for('TOR_page'))  # Redirect to upload page
     else:
@@ -37,7 +37,7 @@ def login_post():
 
 
 @app.route('/TOR_page')
-def index():
+def TOR_page():
     # Check if the user is logged in
     if 'user' not in session:
         return redirect(url_for('login'))
