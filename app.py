@@ -13,16 +13,6 @@ app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # Limit file size to 16 MB
 
 app.secret_key = "my_secret_key" 
 
-# Set up MySQL connection
-db = mysql.connector.connect(
-    host="localhost", #Change to IP address/Domain name when hosted 
-    user="student",
-    password="password",
-    database="cs191"
-)
-cursor = db.cursor()
-# cursor.execute("SHOW TABLES")
-# print(cursor.fetchall())  # This should print a list of tables if the connection is successful
 
 # Ensure upload folder exists
 if not os.path.exists(app.config['UPLOAD_FOLDER']):
@@ -39,7 +29,7 @@ def login_post():
     password = request.form['password']
 
     # Replace with actual usernames
-    if username == 'username' and password == 'password':  # Dummy credentials
+    if username == 'Yanni' and password == 'password':  # Dummy credentials
         session['user'] = username  # Store user in session
         return redirect(url_for('TOR_page'))  # Redirect to upload page
     else:
@@ -91,30 +81,6 @@ def submit_form():
         except Exception as e:
             flash(f"An error occurred: {e}")
         return redirect(url_for('setup1'))  # Redirect to start or a confirmation page
-
-def insert_user_data(data):
-    # Insert data from session into the database
-    query = """
-        INSERT INTO user_info (first_name, last_name, address, birthdate, sex, phone, email, role, university_attended, degree_title, years_attended, student_id)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-    """
-    values = (
-        data.get("first_name"),
-        data.get("last_name"),
-        data.get("address"),
-        data.get("birthdate"),
-        data.get("sex"),
-        data.get("phone"),
-        data.get("email"),
-        data.get("role"),
-        data.get("university_attended"),
-        data.get("degree_title"),
-        data.get("years_attended"),
-        data.get("student_id")
-    )
-    cursor.execute(query, values)
-    db.commit()
-
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
