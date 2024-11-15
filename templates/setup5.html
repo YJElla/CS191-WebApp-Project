@@ -106,14 +106,16 @@
 <body>
 
 <div class="header">
-    <img src="upd_logo.png" alt="University of the Philippines Logo">
-    <img src="dcs_logo.png" alt="Department of Computer Science Logo">
+    <img src="{{ url_for('static', filename='upd_logo.png') }}" alt="University of the Philippines Logo">
+    <img src="{{ url_for('static', filename='dcs_logo.png') }}"alt="Department of Computer Science Logo">
     <h1>University of the Philippines Diliman<br>Department of Computer Science</h1>
 </div>
 
 <div class="container">
     <h2>You have successfully registered!<br />
-        Thank you for registering! Please wait for your Proposed Study Plan
+        Thank you for registering!  <br/>
+        <br/>
+        Status : <span style="color : orange;"> Pending... </span>
     </h2>
 
 </div>

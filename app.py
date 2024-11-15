@@ -29,13 +29,19 @@ def login_post():
     password = request.form['password']
 
     # Replace with actual usernames
-    if username == 'Yanni' and password == 'password':  # Dummy credentials
+    if username == 'student' and password == 'password':  # hardcoded credentials
         session['user'] = username  # Store user in session
         return redirect(url_for('TOR_page'))  # Redirect to upload page
+    elif username == 'teacher' and password == 'password':
+        session['user'] = username
+        return redirect(url_for('teacherdashboard'))
     else:
         flash('Invalid credentials. Please try again.')
         return redirect(url_for('login'))
 
+@app.route('/test')
+def test():
+    return render_template('test.html')
 
 @app.route('/TOR_page')
 def TOR_page():
@@ -43,6 +49,13 @@ def TOR_page():
     if 'user' not in session:
         return redirect(url_for('login'))
     return render_template('TOR_page.html')
+
+@app.route('/teacherdashboard')
+def teacherdashboard():
+    # Check if the user is logged in
+    if 'user' not in session:
+        return redirect(url_for('login'))
+    return render_template('teacherdashboard.html')
 
 @app.route('/setup1')
 def setup1():
@@ -82,7 +95,7 @@ def submit_form():
             flash(f"An error occurred: {e}")
         return redirect(url_for('setup1'))  # Redirect to start or a confirmation page
 
-@app.route('/upload', methods=['POST'])
+@app.route('/upload_file', methods=['POST'])
 def upload_file():
     if 'file' not in request.files:
         return redirect(request.url)

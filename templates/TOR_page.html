@@ -151,11 +151,10 @@
                 <img src="{{ url_for('static', filename='cloud.png') }}" alt="Cloud Upload Icon">
                 <p>DRAG & DROP TO UPLOAD FILE<br>OR</p>
                 <label class="browse-button">
-                    <input type="file" id="fileInput" name="file" style="display: none;">
-                    Browse File
+                    <input type="file" name="file" required>
                 </label>
             </div>
-            <button class="submit-button">→</button>
+            <button type ="submit" class="submit-button">→</button>
         </form>
     </div>
 
