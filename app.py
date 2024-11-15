@@ -13,6 +13,15 @@ app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # Limit file size to 16 MB
 
 app.secret_key = "my_secret_key" 
 
+# Set up MySQL connection
+db = mysql.connector.connect(
+    host="localhost",
+    user="your_username",
+    password="your_password",
+    database="UserData"
+)
+cursor = db.cursor()
+
 # Ensure upload folder exists
 if not os.path.exists(app.config['UPLOAD_FOLDER']):
     os.makedirs(app.config['UPLOAD_FOLDER'])
@@ -55,9 +64,50 @@ def setup2():
 def setup3():
     return render_template('setup3.html')
 
+@app.route('/setup4')
+def setup4():
+    return render_template('setup4.html')
+
 @app.route('/submit_form', methods=['POST'])
 def submit_form():
-    ...
+    form_data = request.form.to_dict()
+    session.update(form_data)  # Store form data in session
+
+    if 'first_name' in form_data and 'last_name' in form_data and 'address' in form_data:
+        return redirect(url_for('setup2'))
+    elif 'birthdate' in form_data and 'sex' in form_data and 'phone' in form_data:
+        return redirect(url_for('setup3'))
+    elif 'email' in form_data and 'role' in form_data and 'password' in form_data and 'confirm_password' in form_data:
+        return redirect(url_for('setup4'))
+    elif 'university_attended' in form_data and 'degree_title' in form_data and 'years_attended' in form_data and 'student_id' in form_data:
+        return redirect(url_for('TOR_page'))
+    else:
+        # All data is collected, so insert into the database
+        try:
+            insert_user_data(session)
+            flash("Your data has been successfully saved!")
+        except Exception as e:
+            flash(f"An error occurred: {e}")
+        return redirect(url_for('setup1'))  # Redirect to start or a confirmation page
+
+def insert_user_data(data):
+    # Insert data from session into the database
+    query = """
+        INSERT INTO user_info (first_name, last_name, address, birthdate, sex, phone)
+        VALUES (%s, %s, %s, %s, %s, %s)
+    """
+    values = (
+        data.get("first_name"),
+        data.get("last_name"),
+        data.get("address"),
+        data.get("birthdate"),
+        data.get("sex"),
+        data.get("phone")
+    )
+    cursor.execute(query, values)
+    db.commit()
+
+
 @app.route('/upload', methods=['POST'])
 def upload_file():
     if 'file' not in request.files:
