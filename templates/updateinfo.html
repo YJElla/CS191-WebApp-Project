@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Upload Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* General Reset */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* Body Styling */
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #F2F2F2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            padding-bottom: 51px;
+        }
+
+        /* Header styling */
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .header img {
+            width: 80px;
+            height: 80px;
+            margin: 0 15px;
+            vertical-align: middle;
+        }
+
+        .header h1 {
+            font-size: 20px;
+            color: #333;
+            font-weight: bold;
+            line-height: 1.4;
+            margin-top: 10px;
+        }
+
+        /* Container styling */
+        .upload-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            width: 800px;
+            padding: 40px;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0px 12px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .upload-container h2 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: left;
+            width: 100%;
+        }
+
+        /* Form fields styling */
+        .form-group {
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            font-size: 16px;
+            color: #333;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            width: 320%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        /* Navigation buttons */
+        .button {
+            background-color: #000000;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #333;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- University Header -->
+    <div class="header">
+        <img src="upd_logo.png" alt="University of the Philippines Logo">
+        <img src="dcs_logo.png" alt="Department of Computer Science Logo">
+        <h1>University of the Philippines Diliman<br>Department of Computer Science</h1>
+    </div>
+
+    <!-- File Upload Container -->
+    <div class="upload-container">
+        <!-- Part 1 -->
+        <div id="part1">
+            <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input type="text" id="firstName" placeholder="Enter your first name">
+            </div>
+            <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input type="text" id="lastName" placeholder="Enter your last name">
+            </div>
+            <div class="form-group">
+                <label for="address">Address</label>
+                <input type="text" id="address" placeholder="Enter your address">
+            </div>
+            <div class="form-group">
+                <label for="birthdate">Birthdate</label>
+                <input type="date" id="birthdate">
+            </div>
+            <button class="button" id="nextBtn">Next</button>
+        </div>
+
+        <!-- Part 2 -->
+        <div id="part2" class="hidden">
+            <div class="form-group">
+                <label for="assignedSex">Assigned Sex</label>
+                <input type="text" id="assignedSex" placeholder="Enter your assigned sex">
+            </div>
+            <div class="form-group">
+                <label for="phoneNumber">Phone Number</label>
+                <input type="tel" id="phoneNumber" placeholder="Enter your phone number">
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="Enter your email">
+            </div>
+            <div class="form-group">
+                <label for="studentId">Student ID</label>
+                <input type="text" id="studentId" placeholder="Enter your student ID">
+            </div>
+            <button class="button" id="backBtn">Back</button>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript to toggle visibility
+        const part1 = document.getElementById('part1');
+        const part2 = document.getElementById('part2');
+        const nextBtn = document.getElementById('nextBtn');
+        const backBtn = document.getElementById('backBtn');
+
+        nextBtn.addEventListener('click', () => {
+            part1.classList.add('hidden');
+            part2.classList.remove('hidden');
+        });
+
+        backBtn.addEventListener('click', () => {
+            part2.classList.add('hidden');
+            part1.classList.remove('hidden');
+        });
+    </script>
+
+</body>
+</html>
