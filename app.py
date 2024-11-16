@@ -31,7 +31,7 @@ def login_post():
     # Replace with actual usernames
     if username == 'student' and password == 'password':  # hardcoded credentials
         session['user'] = username  # Store user in session
-        return redirect(url_for('TOR_page'))  # Redirect to upload page
+        return redirect(url_for('setup5'))  # Redirect to status
     elif username == 'teacher' and password == 'password':
         session['user'] = username
         return redirect(url_for('teacherdashboard'))
@@ -42,6 +42,12 @@ def login_post():
 @app.route('/test')
 def test():
     return render_template('test.html')
+
+@app.route('/updateinfo')
+def updateinfo():
+    if 'user' not in session:
+        return redirect(url_for('login'))
+    return render_template('updateinfo.html')
 
 @app.route('/TOR_page')
 def TOR_page():
@@ -72,6 +78,10 @@ def setup3():
 @app.route('/setup4')
 def setup4():
     return render_template('setup4.html')
+
+@app.route('/setup5')
+def setup5():
+    return render_template('setup5.html')
 
 @app.route('/submit_form', methods=['POST'])
 def submit_form():
