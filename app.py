@@ -13,6 +13,18 @@ app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # Limit file size to 16 MB
 
 app.secret_key = "my_secret_key" 
 
+def get_db_connection():
+    try:
+        connection = mysql.connector.connect(
+            host="localhost",  # Replace with your DB host
+            user="root",  # Replace with your MySQL username
+            password="password",  # Replace with your MySQL password
+            database="cs191"
+        )
+        return connection
+    except mysql.connector.Error as err:
+        print(f"Database connection error: {err}")
+        return None
 
 # Ensure upload folder exists
 if not os.path.exists(app.config['UPLOAD_FOLDER']):
@@ -25,19 +37,38 @@ def login():
 
 @app.route('/login', methods=['POST'])
 def login_post():
-    username = request.form['username']
+    email = request.form['email']
     password = request.form['password']
 
-    # Replace with actual usernames
-    if username == 'student' and password == 'password':  # hardcoded credentials
-        session['user'] = username  # Store user in session
-        return redirect(url_for('setup5'))  # Redirect to status
-    elif username == 'teacher' and password == 'password':
-        session['user'] = username
+    connection = get_db_connection()
+    
+    if email == "teacher@up.edu.ph" and password == "teacher_password":
+        session['user'] = email # Store user in session
         return redirect(url_for('teacherdashboard'))
-    else:
-        flash('Invalid credentials. Please try again.')
+
+    if not connection:
+        flash('Database connection failed. Please try again later.')
         return redirect(url_for('login'))
+    
+    try:
+        cursor = connection.cursor(dictionary=True)
+        query = "SELECT * FROM student WHERE email = %s AND password = %s"
+        cursor.execute(query, (email, password))
+        user = cursor.fetchone()        #fetches result of execute query
+
+        if user:                        #if user is in the database/ already signed up 
+            # session['user'] = user['email']
+            # session['role'] = user['role']
+            # if user['role'] == 'student':
+                return redirect(url_for('setup5')) #redirect to status page
+            # elif user['role'] == 'teacher':
+            #     return redirect(url_for('teacherdashboard'))
+        else:
+            flash('Invalid credentials. Please try again.')
+            return redirect(url_for('login'))
+    finally:
+        cursor.close()
+        connection.close()
 
 @app.route('/test')
 def test():
@@ -87,6 +118,39 @@ def setup5():
 def submit_form():
     form_data = request.form.to_dict()
     session.update(form_data)  # Store form data in session
+    if request.method == 'POST':
+        first_name = request.form['first_name']
+        last_name = request.form['last_name']
+        address = request.form['address']
+        birthdate = request.form['birthdate']
+        sex = request.form['sex']
+        phone_num = request.form['phone_num']
+        email = request.form['email']
+        password = (request.form['password'])
+        university_attended = request.form['university_attended']
+        degree_title = request.form['degree_tite'] 
+        years_attended = request.form['years_attended']
+        student_id = request.form['student_id']
+
+        connection = get_db_connection()
+        if not connection:
+            flash("Database connection failed.")
+            return redirect(url_for('setup1'))
+        try:
+            cursor = connection.cursor()
+            query = """
+                INSERT INTO student (first_name, last_name, address, birthdate,sex, phone_num,email, password, university_attended, degree_title, years_attended, student_id)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            """
+            cursor.execute(query, (first_name, last_name, address, birthdate, sex, phone_num, email, password,university_attended,degree_title, years_attended, student_id))
+            connection.commit()
+            flash("Signup successful!")
+            return redirect(url_for('login'))
+        except mysql.connector.IntegrityError:
+            flash("Username already exists. Please choose a different username.")
+        finally:
+            cursor.close()
+            connection.close()
 
     if 'first_name' in form_data and 'last_name' in form_data and 'address' in form_data:
         return redirect(url_for('setup2'))

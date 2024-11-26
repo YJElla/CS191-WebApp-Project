@@ -26,11 +26,15 @@ CREATE TABLE `student` (
   `idStudent` int NOT NULL,
   `last_name` varchar(20) NOT NULL,
   `first_name` varchar(50) NOT NULL,
+  `email` varchar(50) NOT NULL UNIQUE,
+  `password` varchar(255) NOT NULL,
   `address` varchar(255) NOT NULL,
-  `phone_area` char(5) NOT NULL,
   `phone_num` char(10) NOT NULL,
   `sex` varchar(5) NOT NULL,
   `birthdate` char(10) NOT NULL,
+  `university` char(255) NOT NULL,
+  `years_attended` char(20) NOT NULL,
+  `degree_title` char(255) NOT NULL,
   PRIMARY KEY (`idStudent`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -41,7 +45,8 @@ CREATE TABLE `student` (
 
 LOCK TABLES `student` WRITE;
 /*!40000 ALTER TABLE `student` DISABLE KEYS */;
-INSERT INTO `student` VALUES (202104566,'Tecson','Francis Gabriel','Antipolo','+63','9053025857','Male','10052002');
+INSERT INTO `student` VALUES (202202031,'Ella','Yanni Jose','ycella@up.edu.ph',
+'password','Cavite','9053025857','Male','06192003','UP Diliman','2022-2026','BS Computer Science');
 /*!40000 ALTER TABLE `student` ENABLE KEYS */;
 UNLOCK TABLES;
 
