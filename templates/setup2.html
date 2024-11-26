@@ -138,6 +138,15 @@
                 <input type="tel" id="phone" name="phone_num" placeholder="9XX XXX XXXX" required>
             </div>
         </div>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul>
+                    {% for message in messages %}
+                        <li style="color: red;">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
         
         <div class="button-container">
             <button type="button" class="btn-submit" onclick="history.back()">&#8592;</button>

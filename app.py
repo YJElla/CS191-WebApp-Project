@@ -16,10 +16,10 @@ app.secret_key = "my_secret_key"
 def get_db_connection():
     try:
         connection = mysql.connector.connect(
-            host="localhost",  # Replace with your DB host
-            user="root",  # Replace with your MySQL username
-            password="password",  # Replace with your MySQL password
-            database="cs191"
+            host="bnjecv9lwxnl5e9lbytc-mysql.services.clever-cloud.com",  # Replace with  DB host
+            user="ulfcv7jkriofslwk",  # Replace with MySQL username
+            password="soumoPwYx9idBT6BhM2a",  # Replace with your MySQL password
+            database="bnjecv9lwxnl5e9lbytc"
         )
         return connection
     except mysql.connector.Error as err:
@@ -126,10 +126,13 @@ def submit_form():
     if 'first_name' in form_data and 'last_name' in form_data and 'address' in form_data:
         return redirect(url_for('setup2'))  # Redirect to next step
     elif 'birthdate' in form_data and 'sex' in form_data and 'phone_num' in form_data:
-        return redirect(url_for('setup3'))
+        if len(form_data['phone_num']) > 12:
+            flash("phone number is too long")
+            return redirect(url_for('setup2'))
+        else:
+            return redirect(url_for('setup3'))
     elif 'email' in form_data and 'password' in form_data and 'confirm_password' in form_data:
         if form_data['password'] != form_data['confirm_password']:
-            print(form_data)
             flash("password does not match")
             return redirect(url_for('setup3'))
         else:

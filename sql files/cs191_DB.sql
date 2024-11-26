@@ -29,7 +29,7 @@ CREATE TABLE `student` (
   `email` varchar(50) NOT NULL UNIQUE,
   `password` varchar(255) NOT NULL,
   `address` varchar(255) NOT NULL,
-  `phone_num` char(10) NOT NULL,
+  `phone_num` char(12) NOT NULL,
   `sex` varchar(5) NOT NULL,
   `birthdate` char(10) NOT NULL,
   `university` char(255) NOT NULL,
