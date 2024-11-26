@@ -129,7 +129,8 @@
             </div>
             <div class="form-group">
                 <label for="student_id">Student ID</label>
-                <input type="text" id="student_id" name="idStudent" placeholder="2022XXXXX" required>
+                <input type="text" id="student_id" name="idStudent" oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                placeholder="2022XXXXX" required>
             </div>
         </div>
         
