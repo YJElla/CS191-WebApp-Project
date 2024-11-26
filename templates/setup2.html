@@ -97,6 +97,12 @@
     .form-row .form-group {
         flex: 1;
     }
+    .button-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px; /* Adjust the gap between buttons */
+    }
 </style>
 </head>
 <body>
@@ -133,7 +139,10 @@
             </div>
         </div>
         
-        <button type="submit" class="btn-submit">&#10140;</button>
+        <div class="button-container">
+            <button type="button" class="btn-submit" onclick="history.back()">&#8592;</button>
+            <button type="submit" class="btn-submit">&#8594;</button>
+        </div>
     </form>
 </div>
 
