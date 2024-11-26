@@ -109,7 +109,7 @@
         <div class="form-row">
             <div class="form-group">
                 <label for="university_attended">University attended</label>
-                <input type="text" id="university_attended" name="university_attended" placeholder="University of the Philippines" required>
+                <input type="text" id="university_attended" name="university" placeholder="University of the Philippines" required>
             </div>
             <div class="form-group">
                 <label for="degree_title">Degree Title</label>
@@ -123,11 +123,19 @@
             </div>
             <div class="form-group">
                 <label for="student_id">Student ID</label>
-                <input type="text" id="student_id" name="student_id" placeholder="2022XXXXX" required>
+                <input type="text" id="student_id" name="idStudent" placeholder="2022XXXXX" required>
             </div>
         </div>
         
-        
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul>
+                    {% for message in messages %}
+                        <li style="color: red;">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
         
         <button type="submit" class="btn-submit">&#10140;</button>
     </form>

@@ -168,6 +168,7 @@
 </head>
 <body>
 
+
     <!-- University Header -->
     <div class="header">
         <img src="{{ url_for('static', filename='upd_logo.png') }}" alt="University of the Philippines Logo">
@@ -192,7 +193,16 @@
                     <label for="password">PASSWORD</label>
                     <input type="password" id="password" name="password" placeholder="Password" required>
                 </div>
-
+                <!-- Display Flash Messages -->
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <ul>
+                            {% for message in messages %}
+                                <li style="color: red;">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% endwith %}
                 <!-- Sign-in button -->
                 <button type="submit" class="sign-in-button">Sign In</button>
             </form>
@@ -203,6 +213,7 @@
                 </label>
                 <a href="#">Forgot Password</a>
             </div>
+  
         </div>
 
         <!-- Right section: Welcome message and Sign-up link -->

@@ -35,12 +35,14 @@ def login():
     return render_template('login_page.html')
 
 
+
 @app.route('/login', methods=['POST'])
 def login_post():
     email = request.form['email']
     password = request.form['password']
-
+    
     connection = get_db_connection()
+
     
     if email == "teacher@up.edu.ph" and password == "teacher_password":
         session['user'] = email # Store user in session
@@ -57,10 +59,10 @@ def login_post():
         user = cursor.fetchone()        #fetches result of execute query
 
         if user:                        #if user is in the database/ already signed up 
-            # session['user'] = user['email']
+            session['user'] = user['email']
             # session['role'] = user['role']
             # if user['role'] == 'student':
-                return redirect(url_for('setup5')) #redirect to status page
+            return redirect(url_for('status')) #redirect to status page
             # elif user['role'] == 'teacher':
             #     return redirect(url_for('teacherdashboard'))
         else:
@@ -110,64 +112,67 @@ def setup3():
 def setup4():
     return render_template('setup4.html')
 
-@app.route('/setup5')
-def setup5():
-    return render_template('setup5.html')
+@app.route('/status')
+def status():
+    return render_template('status.html')
 
 @app.route('/submit_form', methods=['POST'])
 def submit_form():
+    # Update session with the latest form data
     form_data = request.form.to_dict()
-    session.update(form_data)  # Store form data in session
-    if request.method == 'POST':
-        first_name = request.form['first_name']
-        last_name = request.form['last_name']
-        address = request.form['address']
-        birthdate = request.form['birthdate']
-        sex = request.form['sex']
-        phone_num = request.form['phone_num']
-        email = request.form['email']
-        password = (request.form['password'])
-        university_attended = request.form['university_attended']
-        degree_title = request.form['degree_tite'] 
-        years_attended = request.form['years_attended']
-        student_id = request.form['student_id']
-
-        connection = get_db_connection()
-        if not connection:
-            flash("Database connection failed.")
-            return redirect(url_for('setup1'))
-        try:
-            cursor = connection.cursor()
-            query = """
-                INSERT INTO student (first_name, last_name, address, birthdate,sex, phone_num,email, password, university_attended, degree_title, years_attended, student_id)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-            """
-            cursor.execute(query, (first_name, last_name, address, birthdate, sex, phone_num, email, password,university_attended,degree_title, years_attended, student_id))
-            connection.commit()
-            flash("Signup successful!")
-            return redirect(url_for('login'))
-        except mysql.connector.IntegrityError:
-            flash("Username already exists. Please choose a different username.")
-        finally:
-            cursor.close()
-            connection.close()
-
+    session.update(form_data)  # Append new data to the session
+    
+    # Check which step we are on and redirect accordingly
     if 'first_name' in form_data and 'last_name' in form_data and 'address' in form_data:
-        return redirect(url_for('setup2'))
-    elif 'birthdate' in form_data and 'sex' in form_data and 'phone' in form_data:
+        return redirect(url_for('setup2'))  # Redirect to next step
+    elif 'birthdate' in form_data and 'sex' in form_data and 'phone_num' in form_data:
         return redirect(url_for('setup3'))
-    elif 'email' in form_data and 'role' in form_data and 'password' in form_data and 'confirm_password' in form_data:
-        return redirect(url_for('setup4'))
-    elif 'university_attended' in form_data and 'degree_title' in form_data and 'years_attended' in form_data and 'student_id' in form_data:
-        return redirect(url_for('TOR_page'))
-    else:
-        # All data is collected, so insert into the database
-        try:
-            insert_user_data(session)
-            flash("Your data has been successfully saved!")
-        except Exception as e:
-            flash(f"An error occurred: {e}")
-        return redirect(url_for('setup1'))  # Redirect to start or a confirmation page
+    elif 'email' in form_data and 'password' in form_data and 'confirm_password' in form_data:
+        if form_data['password'] != form_data['confirm_password']:
+            print(form_data)
+            flash("password does not match")
+            return redirect(url_for('setup3'))
+        else:
+            return redirect(url_for('setup4'))
+    elif 'university' in form_data and 'degree_title' in form_data and 'years_attended' in form_data and 'idStudent' in form_data:
+         # All steps completed: Insert into the database
+        
+        if all(key in session for key in ['first_name', 'last_name', 'address', 'birthdate', 'sex', 'phone_num', 'email', 'password', 'university', 'degree_title', 'years_attended', 'idStudent']):
+            connection = get_db_connection()
+            if not connection:
+                flash("Database connection failed.")
+                return redirect(url_for('setup1'))
+            try:
+       
+                cursor = connection.cursor()
+                query = """
+                    INSERT INTO student (first_name, last_name, address, birthdate, sex, phone_num, email, password, university, degree_title, years_attended, idStudent)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                """
+                cursor.execute(query, (
+                    session['first_name'], session['last_name'], session['address'], 
+                    session['birthdate'], session['sex'], session['phone_num'], 
+                    session['email'], session['password'], session['university'], 
+                    session['degree_title'], session['years_attended'], session['idStudent']
+                ))
+
+                connection.commit()
+                flash("Signup successful!")
+                return redirect(url_for('login'))
+            except mysql.connector.IntegrityError:
+                flash("Email already exists.")
+                return redirect(url_for('setup1'))
+            finally:
+                cursor.close()
+                connection.close()
+        else:
+            flash("Incomplete data. Please complete all steps.")
+            return redirect(url_for('setup1'))  # Redirect to start or an error page
+
+
+   
+
+    
 
 @app.route('/upload_file', methods=['POST'])
 def upload_file():
@@ -197,6 +202,29 @@ def extract_text_from_image(image_path):
     with Image.open(image_path) as img:
         text = pytesseract.image_to_string(img)
     return text
+
+@app.route('/student_info')
+def student_info():
+   # Fetch the student's information from the database or session
+    user = session.get('user')  # Assuming the user's ID is stored in the session
+    print(user)
+    if not user:
+        flash("You need to log in to view your information.")
+        return redirect(url_for('login'))
+
+    connection = get_db_connection()
+    cursor = connection.cursor()
+
+    # Query the database for student information
+    cursor.execute("SELECT * FROM student WHERE email = %s", (user,))
+    student_data = cursor.fetchone()
+
+    if not student_data:
+        flash("Student information not found.")
+        return redirect(url_for(''))  # Redirect to the setup flow if info is missing
+
+    # Pass the retrieved data to the template
+    return render_template('student_info.html', student_info=student_data)
 
 @app.route('/logout')
 def logout():
