@@ -16,10 +16,10 @@ app.secret_key = "my_secret_key"
 def get_db_connection():
     try:
         connection = mysql.connector.connect(
-            host="bnjecv9lwxnl5e9lbytc-mysql.services.clever-cloud.com",  # Replace with  DB host
-            user="ulfcv7jkriofslwk",  # Replace with MySQL username
-            password="soumoPwYx9idBT6BhM2a",  # Replace with your MySQL password
-            database="bnjecv9lwxnl5e9lbytc"
+            host="localhost",  # Replace with  DB host
+            user="root",  # Replace with MySQL username
+            password="password",  # Replace with your MySQL password
+            database="cs191"
         )
         return connection
     except mysql.connector.Error as err:
