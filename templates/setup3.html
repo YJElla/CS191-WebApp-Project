@@ -81,7 +81,7 @@
         align-items: center;
         width: 50px;
         height: 50px;
-        margin: 20px auto 0; /* Adjusted margin to add spacing */
+        margin: 20px auto; /* Adjusted margin to add spacing */
     }
     .btn-submit:hover {
         background-color: #000000;
@@ -92,6 +92,12 @@
     }
     .form-row .form-group {
         flex: 1;
+    }
+    .button-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px; /* Adjust the gap between buttons */
     }
 </style>
 </head>
@@ -129,7 +135,10 @@
                         {% endif %}
                     {% endwith %}
                 </div>
-                <button type="submit" class="btn-submit">&#10140;</button>
+                <div class="button-container">
+                    <button type="button" class="btn-submit" onclick="history.back()">&#8592;</button>
+                    <button type="submit" class="btn-submit">&#8594;</button>
+                </div>
             </form>
         </div>
     </div>
