@@ -8,7 +8,7 @@ import mysql.connector
 
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = 'C:/Users/yanni/OneDrive/Desktop/1sr Sem [Year 3]/CS165/web_app' #Specify folder directory
+app.config['UPLOAD_FOLDER'] = "C:/Users/Daniel Yap/Desktop/Python/CS192/Upload Directory" #Specify folder directory
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # Limit file size to 16 MB
 
 app.secret_key = "my_secret_key" 
@@ -18,7 +18,7 @@ def get_db_connection():
         connection = mysql.connector.connect(
             host="localhost",  # Replace with  DB host
             user="root",  # Replace with MySQL username
-            password="password",  # Replace with your MySQL password
+            password="Westbridge19",  # Replace with your MySQL password
             database="cs191"
         )
         return connection
@@ -160,8 +160,9 @@ def submit_form():
                 ))
 
                 connection.commit()
+                session['user'] = session['email']  # Keep user logged in
                 flash("Signup successful!")
-                return redirect(url_for('login'))
+                return redirect(url_for('TOR_page'))
             except mysql.connector.IntegrityError:
                 flash("Email already exists.")
                 return redirect(url_for('setup1'))
@@ -171,11 +172,6 @@ def submit_form():
         else:
             flash("Incomplete data. Please complete all steps.")
             return redirect(url_for('setup1'))  # Redirect to start or an error page
-
-
-   
-
-    
 
 @app.route('/upload_file', methods=['POST'])
 def upload_file():
@@ -199,7 +195,7 @@ def upload_file():
         # Clean up uploaded file
         os.remove(file_path)
 
-        return render_template('result.html', extracted_text=text)
+        return render_template('status.html', extracted_text=text)
 
 def extract_text_from_image(image_path):
     with Image.open(image_path) as img:
