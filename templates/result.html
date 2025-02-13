@@ -6,9 +6,14 @@
     <title>OCR Results</title>
 </head>
 <body>
-    <h1>Extracted Text</h1>
-    <p>{{ extracted_text }}</p>
-    <a href="{{ url_for('TOR_page') }}">Upload another image</a>
-    <a href="{{ url_for('status') }}">Status Page</a>
+
+    <h2>Processed Extracted Text</h2>
+    <pre>{{ processed_text }}</pre>
+        
+    <h2>Structured Data (Processed)</h2>
+    <pre>{{ structured_data_processed | tojson(indent=4) }}</pre>
+    
+    
+    <a href="{{ url_for('display') }}">Upload another image</a>
 </body>
 </html>
