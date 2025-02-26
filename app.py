@@ -34,8 +34,6 @@ if not os.path.exists(app.config['UPLOAD_FOLDER']):
 def login():
     return render_template('login_page.html')
 
-
-
 @app.route('/login', methods=['POST'])
 def login_post():
     email = request.form['email']
@@ -44,9 +42,9 @@ def login_post():
     connection = get_db_connection()
 
     
-    if email == "teacher@up.edu.ph" and password == "teacher_password":
+    if email == "teacher@up.edu.ph" and password == "pass":
         session['user'] = email # Store user in session
-        return redirect(url_for('teacherdashboard'))
+        return redirect(url_for('teacher_dashboard'))
 
     if not connection:
         flash('Database connection failed. Please try again later.')
@@ -177,6 +175,7 @@ def submit_form():
 def upload_file():
     if 'file' not in request.files:
         return redirect(request.url)
+
     file = request.files['file']
     if file.filename == '':
         return redirect(request.url)
@@ -192,15 +191,37 @@ def upload_file():
         else:
             text = extract_text_from_image(file_path)
 
-        # Clean up uploaded file
-        os.remove(file_path)
+        return render_template('status.html', extracted_text=text)\
 
-        return render_template('status.html', extracted_text=text)
+@app.route('/generate_plan/<student_id>')
+def generate_plan(student_id):
+    pdf_path = os.path.join(app.config['UPLOAD_FOLDER'], f"{student_id}.pdf")  # Ensure correct folder
 
-def extract_text_from_image(image_path):
-    with Image.open(image_path) as img:
-        text = pytesseract.image_to_string(img)
-    return text
+    if not os.path.exists(pdf_path):
+        flash("TOR not found for this student.")
+        return redirect(url_for('teacher_dashboard'))
+
+    extracted_text = extract_text_from_pdf(pdf_path)  # Use existing function
+    return render_template('result.html', student_id=student_id, extracted_text=extracted_text)
+
+@app.route('/upload_extract', methods=['POST'])
+def upload_extract():
+    if 'file' not in request.files:
+        return redirect(request.url)
+    
+    file = request.files['file']
+    if file.filename == '':
+        return redirect(request.url)
+    
+    if file:
+        filename = secure_filename(file.filename)
+        file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        file.save(file_path)
+        
+        extracted_text = extract_text_from_pdf(file_path) 
+
+        return render_template('result.html', extracted_text = extracted_text)
+
 
 @app.route('/student_info')
 def student_info():
@@ -224,6 +245,28 @@ def student_info():
 
     # Pass the retrieved data to the template
     return render_template('student_info.html', student_info=student_data)
+
+@app.route('/teacher_dashboard')
+def teacher_dashboard():
+    user = session.get('user')
+    if not user:
+        flash("You need to log in to view this page.")
+        return redirect(url_for('login'))
+
+    connection = get_db_connection()
+    if not connection:
+        flash("Database connection failed.")
+        return redirect(url_for('login'))
+
+    cursor = connection.cursor(dictionary=True)  # Use dictionary cursor
+    query = "SELECT idStudent, first_name, last_name FROM student"
+    cursor.execute(query)
+    students = cursor.fetchall()  # Fetch all students
+
+    cursor.close()
+    connection.close()
+
+    return render_template('teacherdashboard.html', students=students or [])
 
 @app.route('/logout')
 def logout():
